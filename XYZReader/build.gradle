@@ -1,16 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-    }
-}
 apply plugin: 'com.android.application'
-
-repositories {
-    mavenCentral()
-}
 
 android {
     compileSdkVersion 24
@@ -19,11 +7,20 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 24
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
     }
 }
 
 dependencies {
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:support-v13:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:palette-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
