@@ -8,14 +8,12 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -34,7 +32,14 @@ import butterknife.ButterKnife;
  * touched, lead to a {@link ArticleDetailActivity} representing item details. On tablets, the
  * activity presents a grid of items as cards.
  */
-public class ArticleListActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ArticleListActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
+
+    private static String TAG = ArticleListActivity.class.getSimpleName();
+
+    private boolean mIsRefreshing = false;
+    private ArticleListAdapter mAdapter;
+    private int mColumnCount = 2;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,12 +47,29 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
         ButterKnife.bind(this);
+
+        mCollapsingToolbarLayout.setTitle(getString(R.string.app_name));
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        mColumnCount = getResources().getInteger(R.integer.list_column_count);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(mColumnCount, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+
+        mAdapter = new ArticleListAdapter(null);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
+
         getLoaderManager().initLoader(0, null, this);
 
         if (savedInstanceState == null) {
@@ -71,8 +93,6 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
         unregisterReceiver(mRefreshingReceiver);
     }
 
-    private boolean mIsRefreshing = false;
-
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -94,24 +114,27 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Adapter adapter = new Adapter(cursor);
-        adapter.setHasStableIds(true);
-        mRecyclerView.setAdapter(adapter);
-        int columnCount = getResources().getInteger(R.integer.list_column_count);
-        StaggeredGridLayoutManager sglm =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(sglm);
+        mAdapter.setCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mRecyclerView.setAdapter(null);
+        mAdapter.setCursor(null);
     }
 
-    private class Adapter extends RecyclerView.Adapter<ViewHolder> {
+    @Override
+    public void onRefresh() {
+        refresh();
+    }
+
+    private class ArticleListAdapter extends RecyclerView.Adapter<ViewHolder> {
         private Cursor mCursor;
 
-        public Adapter(Cursor cursor) {
+        public ArticleListAdapter(Cursor cursor) {
+            mCursor = cursor;
+        }
+
+        public void setCursor(Cursor cursor) {
             mCursor = cursor;
         }
 
@@ -128,8 +151,10 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    startActivity(new Intent(
+                            Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))
+                    ));
                 }
             });
             return vh;
@@ -154,6 +179,8 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
 
         @Override
         public int getItemCount() {
+            if (mCursor == null)
+                return 0;
             return mCursor.getCount();
         }
     }
