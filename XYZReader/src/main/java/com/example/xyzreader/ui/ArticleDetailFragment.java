@@ -48,10 +48,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
-    private ObservableScrollView mScrollView;
     private ColorDrawable mStatusBarColorDrawable;
 
-    @BindView(R.id.scrollview)
     View mRootView;
     @BindView(R.id.draw_insets_frame_layout)
     DrawInsetsFrameLayout mDrawInsetsFrameLayout;
@@ -59,6 +57,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     View mPhotoContainerView;
     @BindView(R.id.photo)
     ImageView mPhotoView;
+    @BindView(R.id.scrollviewer)
+    ObservableScrollView mScrollView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -104,10 +104,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         ButterKnife.bind(this, mRootView);
+
         mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
             @Override
             public void onInsetsChanged(Rect insets) {
@@ -127,15 +127,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
-        mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
+//        Code to share with fab
+//        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+//                .setType("text/plain")
+//                .setText("Some sample text")
+//                .getIntent(), getString(R.string.action_share)));
 
         bindViews();
         updateStatusBar();
