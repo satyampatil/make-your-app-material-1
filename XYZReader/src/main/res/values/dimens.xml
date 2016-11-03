@@ -12,6 +12,10 @@
     <dimen name="elevation_card">2dp</dimen>
     <dimen name="elevation_switch">1dp</dimen>
 
+    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+
     <dimen name="fab_press_translation_z">6dp</dimen>
 
     <dimen name="cards_spacing">4dp</dimen>

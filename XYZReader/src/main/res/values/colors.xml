@@ -14,4 +14,7 @@
 
     <color name="textColorPrimaryFoo">#333</color>
     <color name="textColorSecondaryFoo">#555</color>
+
+    <color name="textColorPrimaryInvFoo">#FEFEFE</color>
+    <color name="textColorSecondaryInvFoo">#EEE</color>
 </resources>
