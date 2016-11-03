@@ -6,4 +6,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppTextViewHeadingFoo" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTextViewSubHeadingFoo" parent="@style/TextAppearance.AppCompat.Small">
+    </style>
+
+
 </resources>
