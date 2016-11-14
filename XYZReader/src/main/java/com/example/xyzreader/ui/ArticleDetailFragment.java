@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -46,11 +42,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private long mItemId;
 
     View mRootView;
-    @BindView(R.id.photo)
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.article_photo)
     ImageView mPhotoView;
     @BindView(R.id.article_title)
     TextView mTitleView;
-    @BindView(R.id.article_author)
+    @BindView(R.id.article_subtitle)
     TextView mAuthorView;
     @BindView(R.id.article_body)
     TextView mBodyView;
@@ -96,12 +94,20 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         ButterKnife.bind(this, mRootView);
 
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
         bindViews();
         return mRootView;
     }
 
     @OnClick(R.id.share_fab)
-    public void onFabClikc() {
+    public void onFabClick() {
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                 .setType("text/plain")
                 .setText("Some sample text")
@@ -112,8 +118,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if (mRootView == null) {
             return;
         }
-
-        mBodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
@@ -134,7 +138,36 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     .load(mCursor.getString(ArticleLoader.Query.PHOTO_URL))
                     .fit()
                     .centerCrop()
-                    .into(mPhotoView);
+                    .into(mPhotoView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Bitmap bitmap = ((BitmapDrawable) (mPhotoView.getDrawable())).getBitmap();
+                            if (bitmap != null) {
+                                new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                    @Override
+                                    public void onGenerated(Palette palette) {
+                                        mRootView.findViewById(R.id.meta_bar).setBackgroundColor(palette.getDarkMutedColor(getResources().getColor(R.color.defaultInfoBarColor)));
+                                        /* Unsuccessful attempt at trying to set the user status bar to the same color as the DarkMutedColor().
+                                        ** The reason it kept failing was because viewpager loads previous and next fragment for smooth
+                                        * interface. This meant every time I swiped fragments, the status bar color was set to that of the next
+                                        * fragment!
+                                        * I tried getUserVisibleHint() and isVisible(), but none seem to work.
+                                        if (getUserVisibleHint() && getActivity() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            Window window = getActivity().getWindow();
+                                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                                            window.setStatusBarColor(palette.getDarkMutedColor());
+                                        }
+                                        */
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
         } else {
             mRootView.setVisibility(View.GONE);
             mTitleView.setText("N/A");

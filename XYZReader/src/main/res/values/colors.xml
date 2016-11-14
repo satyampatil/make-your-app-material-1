@@ -6,15 +6,16 @@
     <color name="theme_accent">#04561A</color>
     <color name="ltgray">#ffe0e0e0</color>
 
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorPrimary">#34495e</color>
+    <color name="colorPrimaryDark">#2c3e50</color>
     <color name="colorAccent">#FFC107</color>
 
     <color name="placeHolder">#EEE</color>
+    <color name="defaultInfoBarColor">#333333</color>
 
     <color name="textColorPrimaryFoo">#333</color>
     <color name="textColorSecondaryFoo">#555</color>
 
-    <color name="textColorPrimaryInvFoo">#FEFEFE</color>
+    <color name="textColorPrimaryInvFoo">#FFFFFF</color>
     <color name="textColorSecondaryInvFoo">#EEE</color>
 </resources>
