@@ -32,6 +32,7 @@
                 style="@style/AppTextViewHeadingFoo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contextClickable="true"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:paddingBottom="@dimen/text_spacing_large"

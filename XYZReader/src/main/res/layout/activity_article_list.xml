@@ -56,6 +56,7 @@
         android:layout_margin="@dimen/margin_fab"
         android:src="@drawable/ic_plus"
         app:layout_anchor="@id/app_bar_layout"
+        android:contentDescription="@string/content_add_article"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
