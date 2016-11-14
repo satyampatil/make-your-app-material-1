@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:background="@color/photo_placeholder"
+            android:background="@color/defaultListBarColor"
             android:minHeight="100dp"
             android:scaleType="fitStart" />
 

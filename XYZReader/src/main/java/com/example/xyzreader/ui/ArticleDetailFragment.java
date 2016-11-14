@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
@@ -43,7 +45,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     View mRootView;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.article_photo)
     ImageView mPhotoView;
     @BindView(R.id.article_title)
@@ -52,6 +54,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     TextView mAuthorView;
     @BindView(R.id.article_body)
     TextView mBodyView;
+    @BindView(R.id.info_bar)
+    LinearLayout mInfoBar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -94,8 +98,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         ButterKnife.bind(this, mRootView);
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
@@ -106,11 +110,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         return mRootView;
     }
 
-    @OnClick(R.id.share_fab)
+    @OnClick(R.id.fab_share)
     public void onFabClick() {
+        Snackbar.make(mBodyView, getString(R.string.prep_share), Snackbar.LENGTH_SHORT).show();
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                 .setType("text/plain")
-                .setText("Some sample text")
+                .setText("XYZReader says hi! Interest yourself in : " + mTitleView.getText())
                 .getIntent(), getString(R.string.action_share)));
     }
 
@@ -146,7 +151,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                                 new Palette.Builder(bitmap).generate(new Palette.PaletteAsyncListener() {
                                     @Override
                                     public void onGenerated(Palette palette) {
-                                        mRootView.findViewById(R.id.meta_bar).setBackgroundColor(palette.getDarkMutedColor(getResources().getColor(R.color.defaultInfoBarColor)));
+                                        if (getActivity() != null)
+                                            mInfoBar.setBackgroundColor(palette.getDarkMutedColor(getResources().getColor(R.color.defaultInfoBarColor)));
                                         /* Unsuccessful attempt at trying to set the user status bar to the same color as the DarkMutedColor().
                                         ** The reason it kept failing was because viewpager loads previous and next fragment for smooth
                                         * interface. This meant every time I swiped fragments, the status bar color was set to that of the next

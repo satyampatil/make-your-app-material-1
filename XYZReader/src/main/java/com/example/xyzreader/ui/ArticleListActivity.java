@@ -9,10 +9,12 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.example.xyzreader.data.UpdaterService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * An activity representing a list of Articles. This activity has different presentations for
@@ -57,9 +60,10 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
         setContentView(R.layout.activity_article_list);
         ButterKnife.bind(this);
 
-        mCollapsingToolbarLayout.setTitle(getString(R.string.app_name));
+        String title = "<b>" + "XYZ" + "</b>" + "reader";
+        mCollapsingToolbarLayout.setTitle(Html.fromHtml(title));
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle(Html.fromHtml(title));
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -76,6 +80,11 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
         if (savedInstanceState == null) {
             refresh();
         }
+    }
+
+    @OnClick(R.id.fab_new_article)
+    public void onNewArticleClick() {
+        Snackbar.make(mRecyclerView, getString(R.string.new_article), Snackbar.LENGTH_SHORT).show();
     }
 
     private void refresh() {

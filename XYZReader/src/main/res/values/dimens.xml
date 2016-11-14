@@ -1,7 +1,6 @@
 <resources>
     <dimen name="detail_title_text_size">32sp</dimen>
     <dimen name="detail_body_text_size">22sp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
 
     <dimen name="elevation_fab">6dp</dimen>
     <dimen name="elevation_snackbar">6dp</dimen>
@@ -10,9 +9,10 @@
     <dimen name="elevation_card">2dp</dimen>
     <dimen name="elevation_switch">1dp</dimen>
 
-    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="margin_fab">24dp</dimen>
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
 
     <dimen name="fab_press_translation_z">6dp</dimen>
 

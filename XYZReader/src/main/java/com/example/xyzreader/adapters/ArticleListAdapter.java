@@ -79,7 +79,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                     public void onSuccess() {
                         Bitmap bitmap = ((BitmapDrawable) (holder.thumbnailView.getDrawable())).getBitmap();
                         Palette palette = Palette.generate(bitmap);
-                        int defaultColor = holder.thumbnailView.getContext().getResources().getColor(R.color.placeHolder);
+                        int defaultColor = holder.thumbnailView.getContext().getResources().getColor(R.color.defaultListBarColor);
                         int color = palette.getLightMutedColor(defaultColor);
                         holder.itemView.setBackgroundColor(color);
                     }

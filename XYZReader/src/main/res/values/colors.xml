@@ -1,21 +1,14 @@
 <resources>
-    <color name="photo_placeholder">#ccc</color>
-
-    <color name="theme_primary">#04561A</color>
-    <color name="theme_primary_dark">#04561A</color>
-    <color name="theme_accent">#04561A</color>
-    <color name="ltgray">#ffe0e0e0</color>
-
     <color name="colorPrimary">#34495e</color>
     <color name="colorPrimaryDark">#2c3e50</color>
     <color name="colorAccent">#FFC107</color>
 
-    <color name="placeHolder">#EEE</color>
     <color name="defaultInfoBarColor">#333333</color>
+    <color name="defaultListBarColor">#EEEEEE</color>
 
-    <color name="textColorPrimaryFoo">#333</color>
-    <color name="textColorSecondaryFoo">#555</color>
+    <color name="textColorPrimary">#333</color>
+    <color name="textColorSecondary">#555</color>
 
-    <color name="textColorPrimaryInvFoo">#FFFFFF</color>
-    <color name="textColorSecondaryInvFoo">#EEE</color>
+    <color name="textColorPrimaryInv">#FFFFFF</color>
+    <color name="textColorSecondaryInv">#EEE</color>
 </resources>
