@@ -10,9 +10,14 @@ Learnt about Material design and using the Android Design library for various as
 
 # Screenshots
 
-![Image1](art/1.png)
-![Image2](art/2.png)
-![Image3](art/3.png)
-![Image4](art/4.png)
-![Image5](art/5.png)
-![Image6](art/6.png)
+<img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/1.png" alt="HOME" width="20%" height="20%" hspace="20"><img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/2.png" alt="HOME" width="20%" height="20%" hspace="20"><img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/3.png" alt="HOME" width="20%" height="20%" hspace="20"><img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/4.png" alt="HOME" width="20%" height="20%" hspace="20">
+
+<p align="center">
+<img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/5.png" alt="HOME" width="90%" height="90%">
+  </p>
+  
+<br/><br/><br/><br/>
+
+<p align="center">
+<img src="https://github.com/satyampatil/make-your-app-material-1/blob/master/art/6.png" alt="HOME" width="90%" height="90%">
+  </p>
